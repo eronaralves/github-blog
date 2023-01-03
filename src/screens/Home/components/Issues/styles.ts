@@ -20,6 +20,7 @@ export const ContainerIssues = styled.div`
 export const Heading = styled.div`
   display: flex;
   justify-content: space-between;
+  gap: 1rem;
 
   margin-bottom: 1.25rem;
 

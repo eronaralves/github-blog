@@ -1,7 +1,7 @@
 import { useTheme } from "styled-components"
 
 // Components
-import { Issues } from "./components/Issues"
+import { Issue } from "./components/Issues"
 
 // Icons
 import { FiArrowUpRight } from "react-icons/fi"
@@ -14,6 +14,7 @@ import * as S from './styles'
 
 export function Home() {
   const [user, setUser] = useState<any>([])
+  const [issues, setIssues] = useState<any>([])
 
   const theme = useTheme()
 
@@ -21,11 +22,18 @@ export function Home() {
     const data = await fetch('https://api.github.com/users/eronaralves').then(res => res.json())
 
     setUser(data)
+  }
+
+  async function fetchGithubIssues() {
+    const data = await fetch('https://api.github.com/repos/eronaralves/github-blog/issues').then(res => res.json())
+
+    setIssues(data)
     console.log(data)
   }
 
   useEffect(() => {
     fetchGithubUser()
+    fetchGithubIssues()
   }, [])
 
   return (
@@ -71,9 +79,9 @@ export function Home() {
         <input type="text" placeholder="Buscar conteúdo"/>
       </S.ContainerSearch>
       <S.ContainerIssues>
-        <Issues/>
-        <Issues/>
-        <Issues/>
+        {issues.map((issue: any) => (
+          <Issue key={issue.id} paragraph={issue.body} title={issue.title}/>
+        ))}
       </S.ContainerIssues>
     </S.ContainerHome>
   )
